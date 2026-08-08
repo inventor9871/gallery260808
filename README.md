@@ -15,7 +15,7 @@
 
 ### gallery 內的相片集
 - 只需將照片的檔名改成 photo001 ~ photo999.jpg 
-- 並在 info.json 輸入網頁相關內容
+- 並在 info.json 輸入網頁、圖片相關內容
 
 ### 顯示相片集
 在 categories.json 依序輸入想要顯示的相片集資訊即可。

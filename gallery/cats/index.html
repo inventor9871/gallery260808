@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 預設標題，JSON 載入後會自動覆蓋 -->
     <title id="pageTitle">載入中...</title>
     <style>
         body {
@@ -34,9 +33,17 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px;
             max-width: 1000px;
             margin: 0 auto;
+        }
+
+        /* 每一張圖片與說明的包裝容器 */
+        .thumb-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 200px;
         }
 
         .thumbnails img {
@@ -49,6 +56,15 @@
             transition: transform 0.2s, opacity 0.2s;
         }
         .thumbnails img:hover { transform: scale(1.05); opacity: 0.85; }
+
+        /* 圖片下方說明文字的樣式 */
+        .thumb-caption {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: #555;
+            text-align: center;
+            word-break: break-all;
+        }
 
         /* 燈箱樣式 */
         .lightbox {
@@ -100,11 +116,9 @@
     </style>
 </head>
 <body>
-    <!-- <script src="../../index.js"></script> -->
 
     <a href="../../index.html" class="back-btn">&#8592; 返回首頁</a>
 
-    <!-- 大標題由 JSON 帶入 -->
     <h2 id="pageHeading">載入中...</h2>
     <div id="statusMessage">讀取資料中...</div>
 
@@ -133,14 +147,16 @@
         const imageFolder = 'images/';
         const fileExtension = '.jpg';
 
-        // 1. 初始化：讀取 info.json 並更新標題
         async function loadInfoAndGallery() {
+            let infoData = {};
+            
+            // 1. 讀取 info.json (包含標題與圖片說明)
             try {
                 const res = await fetch('info.json');
                 if (res.ok) {
-                    const info = await res.json();
-                    pageTitle.textContent = info.title || '圖片集';
-                    pageHeading.textContent = info.heading || '圖片集藝廊';
+                    infoData = await res.json();
+                    pageTitle.textContent = infoData.title || '圖片集';
+                    pageHeading.textContent = infoData.heading || '圖片集藝廊';
                 }
             } catch (e) {
                 console.log('找不到 info.json 或格式錯誤，使用預設標題');
@@ -148,7 +164,7 @@
                 pageHeading.textContent = '圖片集藝廊';
             }
 
-            // 2. 讀取圖片
+            // 2. 讀取圖片並自動對應說明
             let loadedCount = 0;
             for (let i = 1; i <= totalPhotos; i++) {
                 const numStr = String(i).padStart(3, '0');
@@ -158,6 +174,12 @@
                     const response = await fetch(fullPath, { method: 'HEAD' });
                     if (response.ok) {
                         loadedCount++;
+
+                        // 建立外層容器
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'thumb-item';
+
+                        // 建立圖片
                         const img = document.createElement('img');
                         img.src = fullPath;
                         img.alt = `照片 ${numStr}`;
@@ -172,7 +194,17 @@
                             }
                         });
 
-                        container.appendChild(img);
+                        itemDiv.appendChild(img);
+
+                        // 檢查 JSON 裡面是否有對應的說明文字
+                        if (infoData.captions && infoData.captions[numStr]) {
+                            const captionDiv = document.createElement('div');
+                            captionDiv.className = 'thumb-caption';
+                            captionDiv.textContent = infoData.captions[numStr];
+                            itemDiv.appendChild(captionDiv);
+                        }
+
+                        container.appendChild(itemDiv);
                     } else {
                         break;
                     }
@@ -183,7 +215,6 @@
             statusMessage.textContent = loadedCount > 0 ? `共找到 ${loadedCount} 張圖片` : `目前沒有圖片`;
         }
 
-        // 執行載入
         loadInfoAndGallery();
 
         function updateLightbox(index) {
@@ -206,7 +237,7 @@
         lightbox.addEventListener('touchend', (e) => { 
             touchEndX = e.changedTouches[0].screenX;
             if (touchEndX < touchStartX - 50) updateLightbox(currentIndex + 1);
-            if (touchEndX > touchStartX + 50) updateLightbox(currentIndex - 1);
+            if (touchEndX > touchStartX - 50) updateLightbox(currentIndex - 1);
         }, { passive: true });
 
         document.addEventListener('keydown', (e) => {
