@@ -1,7 +1,8 @@
 
 ## 使用說明
-在其他網頁中，用 JQuery 引入 gallery
-圖片來源：https://unsplash.com/s/photos/fish
+- 在其他網頁中，用 JQuery 引入 gallery
+- 圖片來源：https://unsplash.com/s/photos/fish
+- 範例：https://inventor9871.github.io/gallery260808/
 
 ### 網站的絕對路徑
 在 index.js 有 url，必須設定絕對路徑。

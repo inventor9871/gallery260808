@@ -1,6 +1,6 @@
 const info = [
     {
-        "url": "http://127.0.0.1:3000/gallery/",
+        "url": "https://inventor9871.github.io/gallery260808/gallery/",
         
     }
 ]
