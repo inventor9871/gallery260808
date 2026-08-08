@@ -1,0 +1,16 @@
+[
+    {
+        "folder": "fish",
+        "name": "魚照片專區",
+        "cover": "fish/images/photo001.jpg"
+    },{
+        "folder": "dogs",
+        "name": "狗照片專區",
+        "cover": "dogs/images/photo001.jpg"
+    },
+    {
+        "folder": "cats",
+        "name": "貓照片專區",
+        "cover": "cats/images/photo001.jpg"
+    }
+]

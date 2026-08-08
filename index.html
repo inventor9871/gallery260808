@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.block {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.a {
+  background-color: #0a5fa3;
+}
+
+.b {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.b1 {
+  background-color: #1dba8d;
+  flex-basis: 33%;
+}
+
+.b2 {
+  background-color: #72cc2d;
+  flex-basis: 33%;
+}
+
+.b3 {
+  background-color: #1dbafd;
+  flex-basis: 33%;
+}
+
+.c {
+  background-color: #e5c131;
+  height: 100%;
+}
+
+.d {
+  background-color: #e74614;
+}
+
+@media (max-width: 768px) {
+  .bc{
+    display: flex;
+    justify-content: space-between;
+  }
+  .b{
+    width: 50%;
+    flex-direction: column;
+/*     height: 222px; */
+  }
+  .b .block {
+/*     width: 100%; */
+    flex-basis: 33.333%;
+  }
+  .c{
+    width: 50%;
+    height: auto;
+  }
+}
+@media (max-width: 576px) {
+  .bc{
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+  .b1, .b2, .b3{
+    min-height: 80px;
+  }
+  .c {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 375px) {
+  .b{
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+}
+  
+  
+    </style>
+</head>
+<body>
+    <div class="container">
+  <div class="block a">a</div>
+  <div class="bc">
+    <div class="b">
+      <div class="block b1">b1</div>
+      <div class="block b2">b2</div>
+      <div class="block b3">b3</div>
+    </div>
+    <script src="index.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+              <script>
+$(document).ready(function(){
+  const url = info[0].url;
+    $("#RP1").load(url+"index.html");
+  }); </script>
+    <div id="RP1" class="block c">c</div>
+  </div>
+  <div class="block d">d</div>
+</div>
+</body>
+</html>
